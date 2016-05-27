@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 这个Mapper的主要功能就是写sql mapper:根 namespace:命令空间 (用来确定唯一) 以前这个是可以不加的,现在必需加 -->
+<mapper namespace="cn.wei.domain.EmployeeMapper">
+	<!-- select : 这里面写查询语句 id:用来确定这条sql语句的唯一 以后我们确定唯一,也就是找sql语句 : namespace 
+		+ id 例: cn.itsource.domain.mapper.ProductMapper.get parameterType : 传入的参数类型 
+		long:大Long _long:小long (具体的对应请参见文档) resultType : 结果类型(第一条数据返回的对象类型) 自己的对象一定是全限定命 -->	
+	<select id="getCount" parameterType="cn.wei.domain.EmployeeQuery" resultType="int">
+		select count(*) from employee 
+		<where>
+			<if test="name!=null">
+				and name like concat('%',#{name},'%')
+			</if>
+			
+			<if test="minSalary!=null">
+				<![CDATA[
+				and salary >= #{minSalary}
+				]]>
+			</if>
+			
+			<if test="maxSalary!=null">
+			<![CDATA[
+				and salary <= #{maxSalary}
+			]]>
+			</if>
+		</where>
+	</select>	
+		
+	<select id="select" parameterType="cn.wei.domain.EmployeeQuery" resultType="Employee">
+		select * from employee 
+		<where>
+			<if test="name!=null">
+				and name like concat('%',#{name},'%')
+			</if>
+			
+			<if test="minSalary!=null">
+				<![CDATA[
+				and salary >= #{minSalary}
+				]]>
+			</if>
+			
+			<if test="maxSalary!=null">
+			<![CDATA[
+				and salary <= #{maxSalary}
+			]]>
+			</if>
+		</where>
+		limit #{startIndex},#{pageSize}
+	</select>
+	
+	
+	<delete id="delete" parameterType="long">
+		delete from employee where id=#{id}
+	</delete>
+	<select id="getById" parameterType="long" resultType="Employee">
+		select * from employee where id=#{id}
+	</select>
+	<select id="getEmList" resultType="Employee">
+		select * from employee
+	</select>
+	<update id="update" parameterType="Employee">
+		update employee set name=#{name},password=#{password},dept=#{dept},salary=#{salary},bornDate=#{bornDate}
+		where id=#{id}
+	</update>
+	<insert id="save" parameterType="Employee">
+		insert into employee(id,name,password,dept,salary,bornDate) value(null,#{name},#{password},#{dept},#{salary},#{bornDate})
+	</insert>
+	
+</mapper> 

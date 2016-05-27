@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="cn.wei.domain.Employee" alias="Employee"/>
+		<package name="cn.wei.domain"/>
+	</typeAliases>
+	<!-- 数据库配置信息 -->
+	<environments default="development">
+		<environment id="development">
+			<!--事务管理 -->
+			<transactionManager type="JDBC" />
+			<!-- 连接池 -->
+			<dataSource type="POOLED">
+				<!-- 数据库驱动 不同的数据库要写不同的数据库驱动（mysql oracle等） -->
+				<property name="driver" value="com.mysql.jdbc.Driver" />
+				<!-- 连接的url -->
+				<property name="url" value="jdbc:mysql://localhost:3306/jdbctest" />
+				<!-- 连接数据库的用户名 -->
+				<property name="username" value="root" />
+				<!-- 连接数据库的密码 -->
+				<property name="password" value="root" />
+			</dataSource>
+		</environment>
+	</environments>
+	<!-- 导入映射文件 -->
+	<mappers>
+		<mapper resource="cn/wei/domain/EmployeeMapper.xml" />
+	</mappers>
+</configuration>
